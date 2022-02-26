@@ -1,1 +1,1 @@
-# truenas-charts
+# TrueNAS Scale Helm Charts
