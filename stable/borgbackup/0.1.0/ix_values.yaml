@@ -1,0 +1,4 @@
+image:
+  repository: nold360/borgserver
+  tag: latest
+  pullPolicy: IfNotPresent
