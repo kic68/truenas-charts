@@ -1,37 +1,54 @@
 groups:
-  - name: "Container Images"
-    description: "Image to be used for container"
+  - name: "Borgmatic Backup Data"
+    description: "Configuration of Borgmatic backups"
 questions:
-  - variable: image
-    label: "Image TETE"
-    description: "Docker Image Details"
-    group: "Container Images"
+  - variable: borgmatic
+    label: "Borgmatic Configuration"
+    group: "Borgmatic Backup Data"
     schema:
       type: dict
       required: true
       attrs:
-        - variable: repository
-          description: "Docker image repository"
-          label: "Image repository"
+        - variable: image_tag
+          label: "Borgmatic Image Tag"
           schema:
+            default: base-1.2.0-1.5.23
             type: string
             required: true
-        - variable: tag
-          description: "Tag to use for specified image"
-          label: "Image Tag"
+        - variable: timezone
+          label: "TimeZone"
           schema:
             type: string
-            default: "latest"
-        - variable: pullPolicy
-          description: "Docker Image Pull Policy"
-          label: "Image Pull Policy"
+            default: "Europe/Berlin"
+        - variable: crontab
+          label: "Crontab"
           schema:
             type: string
-            default: "IfNotPresent"
-            enum:
-              - value: "IfNotPresent"
-                description: "Only pull image if not present on host"
-              - value: "Always"
-                description: "Always pull image even if present on host"
-              - value: "Never"
-                description: "Never pull image even if it's not present on host"
+            default: "0 1 * * * PATH=$PATH:/usr/bin /usr/bin/borgmatic --stats -v 0 2>&1"
+            
+        # - variable: pullPolicy
+        #   description: "Docker Image Pull Policy"
+        #   label: "Image Pull Policy"
+        #   schema:
+        #     type: string
+        #     default: "IfNotPresent"
+        #     enum:
+        #       - value: "IfNotPresent"
+        #         description: "Only pull image if not present on host"
+        #       - value: "Always"
+        #         description: "Always pull image even if present on host"
+        #       - value: "Never"
+        #         description: "Never pull image even if it's not present on host"
+
+
+
+
+#     volumes:
+#       - ${VOLUME_SOURCE}:/mnt/source:ro           # backup source
+#       - ${VOLUME_TARGET}:/mnt/borg-repository     # backup target
+#       - ${VOLUME_ETC_BORGMATIC}:/etc/borgmatic.d/ # borgmatic config file(s) + crontab.txt
+#       - ${VOLUME_BORG_CONFIG}:/root/.config/borg  # config and keyfiles
+#       - ${VOLUME_SSH}:/root/.ssh                  # ssh key for remote repositories
+#       - ${VOLUME_BORG_CACHE}:/root/.cache/borg    # checksums used for deduplication
+#     environment:
+#       - BORG_PASSPHRASE=${BORG_PASSPHRASE}
